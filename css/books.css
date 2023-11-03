@@ -1,0 +1,50 @@
+.books_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.book {
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #efefef;
+}
+
+.description_textarea {
+  height: 30px;
+}
+
+.info_textarea {
+  height: 100px;
+}
+
+.book_title {
+  font-weight: bold;
+  text-align: right;
+}
+
+.no_books_message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: flicker 2s infinite;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.edit_button {
+  display: block;
+}
+
+.price_textarea {
+  text-align: center;
+  width: 100px;
+}
+
+.book_image {
+  margin-top: 10px;
+  text-align: center;
+  height: 150px;
+  width: auto;
+}

@@ -1,0 +1,28 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  margin: 0;
+}
+
+body {
+  padding: 3% 5%;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  text-align: right;
+}
+
+.block {
+  display: block;
+}
+
+.center {
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  margin: auto;
+  padding: 0;
+}
