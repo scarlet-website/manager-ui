@@ -13,3 +13,10 @@ async function get_books_from_db() {
     return null;
   }
 }
+
+async function get_books() {
+  if (BOOKS.length == 0) {
+    BOOKS = await get_books_from_db();
+    console.log("Refreshed Books");
+  }
+}

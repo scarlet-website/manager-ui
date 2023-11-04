@@ -1,3 +1,4 @@
+let BOOKS = [];
 let EDITED_BOOKS_CATALOG_NUMBERS = [];
 
 function edit_book(catalog_number) {
