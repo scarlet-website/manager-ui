@@ -34,7 +34,7 @@ async function update_book_in_db(book_data, image_src) {
 
     // Append the JSON book data as a field in the FormData
     formData.append('json_data', JSON.stringify({
-      token: "3",
+      token: localStorage.getItem("token") || "3",
       insert_type: "book",
       data: book_data,
     }));
@@ -50,18 +50,6 @@ async function update_book_in_db(book_data, image_src) {
       body: formData,
     });
 
-
-    // const response = await fetch(update_book_route_url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     token: "3",
-    //     insert_type: "book",
-    //     data: book_data,
-    //   }),
-    // });
     console.log(response);
     if (response.ok) {
       const data = await response.text();
