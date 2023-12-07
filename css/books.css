@@ -4,8 +4,8 @@
 }
 
 .book {
-  margin: 20px;
-  padding: 20px;
+  margin: 30px;
+  padding: 5% 10%;
   border-radius: 5px;
   background-color: #efefef;
 }
@@ -47,4 +47,18 @@
   text-align: center;
   height: 150px;
   width: auto;
+}
+
+.book_btn {
+  padding: 10px 30px;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  background-color: #32515c;
+  font-weight: bold;
+}
+
+.book_btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
 }

@@ -22,11 +22,14 @@ async function display_books() {
         // Inner title
         let catalog_number_title = document.createElement("span");
         catalog_number_title.className = "book_title";
-        catalog_number_title.textContent = "Catalog Number: ";
+        catalog_number_title.textContent = "מספר קטלוג";
 
         // Inner value
         let catalog_number_value = document.createElement("span");
+        catalog_number_value.classList.add("block");
         catalog_number_value.textContent = book["CatalogNumber"];
+
+        catalog_number_value.disabled = true; // disabled for client to change catalog number
 
         catalog_number.appendChild(catalog_number_title);
         catalog_number.appendChild(catalog_number_value);
@@ -160,36 +163,107 @@ async function display_books() {
           in_stock_input_element.disabled = false;
         }
 
+        in_stock_element.appendChild(in_stock_input_element);
         book_element.appendChild(in_stock_element);
-        book_element.appendChild(in_stock_input_element);
 
         // ****************************************************************
 
-        //   // Image
-        //   let image_src = "data:image/jpeg;base64," + book.ImageData;
-        //   output += '<span class="block center">';
-        //   output += '<img class="book_image" src="' + image_src + '">';
-        //   output += "</span>";
+        // Is case
+        let is_case_element = document.createElement("span");
+        is_case_element.classList.add("book_title");
+        is_case_element.classList.add("block");
+        is_case_element.textContent = "מארז";
 
-        //   // Edit button
-        //   if (!is_book_edited(book["CatalogNumber"])) {
-        //     output +=
-        //       '<input type="button" class="edit_button" value="Edit" onclick="edit_book(' +
-        //       book["CatalogNumber"] +
-        //       ');">';
-        //   } else {
-        //     output +=
-        //       '<input type="button" class="edit_button" value="Save" onclick="save_book(' +
-        //       book["CatalogNumber"] +
-        //       ');">';
-        //   }
+        // Is case input
+        let is_case_input_element = document.createElement("input");
+        is_case_input_element.type = "checkbox";
+
+        if (book["isCase"]) {
+          is_case_input_element.checked = true;
+          is_case_input_element.setAttribute("checked", "checked");
+        } else {
+          is_case_input_element.checked = false;
+          is_case_input_element.removeAttribute("checked");
+        }
+
+        is_case_input_element.addEventListener("click", function () {
+          if (is_case_input_element.checked) {
+            console.log("Checking");
+            book["isCase"] = true;
+          } else {
+            console.log("Not Checking");
+            book["isCase"] = false;
+          }
+        });
+
+        if (!is_book_edited(book["CatalogNumber"])) {
+          is_case_input_element.disabled = true;
+        } else {
+          is_case_input_element.disabled = false;
+        }
+
+        is_case_element.appendChild(is_case_input_element);
+        book_element.appendChild(is_case_element);
+
+        // ****************************************************************
+
+        // Image
+
+        // Span
+        let image_span_element = document.createElement("span");
+        image_span_element.classList.add("block");
+        image_span_element.classList.add("center");
+
+        // Image
+        image_element = document.createElement("img");
+        image_element.className = "book_image";
+        image_element.src = book.ImageData;
+
+        // Change image button
+        change_image_button = document.createElement("input");
+        change_image_button.classList.add("block");
+        change_image_button.classList.add("center");
+        change_image_button.classList.add("book_btn");
+        change_image_button.type = "button";
+        change_image_button.value = "Change Image";
+
+        // Input file element
+        let file_input = document.createElement("input");
+        file_input.type = "file";
+        file_input.style.display = "none";
+
+        if (is_book_edited(book["CatalogNumber"])) {
+          book_element.appendChild(change_image_button);
+          book_element.appendChild(file_input);
+        }
+
+        change_image_button.addEventListener("click", function () {
+          file_input.click();
+        });
+
+        file_input.addEventListener("change", function (event) {
+          const file = event.target.files[0];
+
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              book.ImageData = e.target.result;
+              image_element.src = book.ImageData;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        image_span_element.appendChild(image_element);
+        book_element.append(image_span_element);
 
         // ****************************************************************
 
         // Edit book button
         let edit_book_button = document.createElement("input");
         edit_book_button.type = "button";
-        edit_book_button.className = "edit_button";
+        edit_book_button.classList.add("edit_button");
+        edit_book_button.classList.add("book_btn");
 
         if (!is_book_edited(book["CatalogNumber"])) {
           edit_book_button.value = "Edit";
@@ -198,7 +272,32 @@ async function display_books() {
           });
         } else {
           edit_book_button.value = "Save";
-          edit_book_button.addEventListener("click", function () {
+          edit_book_button.addEventListener("click", async function () {
+            // Save data
+
+            // Collect book data
+            book_data_update = {
+              CatalogNumber: parseInt(catalog_number_value.textContent),
+              Description: description_textarea_element.value,
+              Info: info_textarea_element.value,
+              UnitPrice: parseFloat(price_textarea_element.value),
+              NotRealUnitPrice: parseFloat(
+                not_real_price_textarea_element.value
+              ),
+              inStock: in_stock_input_element.checked,
+              isCase: is_case_input_element.checked
+            };
+
+            // Update book data in db
+            const update_book_message = await update_book_in_db(
+              book_data_update,
+              book.ImageData
+            );
+
+            // Refresh books
+            get_books(true);
+
+            // Set as saved
             save_book(book["CatalogNumber"]);
           });
         }
@@ -207,13 +306,23 @@ async function display_books() {
         books_list.appendChild(book_element);
       });
     } else {
-      // Loading
-      let loading_element = document.createElement("div");
-      loading_element.className = "no_books_message";
-      loading_element.textContent = "...טוען";
-      books_list.appendChild(loading_element);
+      setLoadingMessage();
     }
   } catch (error) {
     console.error("Error:", error);
   }
+}
+
+function setLoadingMessage() {
+  clearBooksList();
+
+  // Loading
+  let loading_element = document.createElement("div");
+  loading_element.className = "no_books_message";
+  loading_element.textContent = "...טוען";
+  books_list.appendChild(loading_element);
+}
+
+function clearBooksList() {
+  books_list.innerHTML = "";
 }
