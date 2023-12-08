@@ -34,7 +34,7 @@ async function update_book_in_db(book_data, image_src) {
 
     // Append the JSON book data as a field in the FormData
     formData.append('json_data', JSON.stringify({
-      token: localStorage.getItem("token") || "3",
+      token: localStorage.getItem("token"),
       insert_type: "book",
       data: book_data,
     }));
@@ -54,6 +54,8 @@ async function update_book_in_db(book_data, image_src) {
     if (response.ok) {
       const data = await response.text();
       return data;
+    } else if (response.status == 401) {
+      alert("Wrong password / token");
     } else {
       throw new Error("Error updating book");
     }

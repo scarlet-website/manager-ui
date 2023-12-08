@@ -1,5 +1,6 @@
 function getDOMs() {
   const books_list = document.getElementById("books_list");
+  const token_password_input = document.getElementById("token_password_input");
 }
 
 async function display_books() {

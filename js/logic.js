@@ -14,3 +14,8 @@ function save_book(catalog_number) {
 function is_book_edited(catalog_number) {
   return EDITED_BOOKS_CATALOG_NUMBERS.includes(catalog_number);
 }
+
+function save_password() {
+  alert("סיסמה נשמרה.");
+  localStorage.setItem("token", token_password_input.value);
+}
