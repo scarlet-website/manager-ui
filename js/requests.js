@@ -1,4 +1,4 @@
-SERVER_ADDRESS = "http://127.0.0.1:5000";
+SERVER_ADDRESS = "https://manager-web-server.onrender.com";
 
 async function get_books_from_db() {
   try {
