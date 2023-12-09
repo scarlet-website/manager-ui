@@ -3,6 +3,8 @@ function getDOMs() {
   const token_password_input = document.getElementById("token_password_input");
 }
 
+const ORDERS_ITEMS_IDS = [999991, 999992, 999993];
+
 async function display_books() {
   await get_books();
 
@@ -10,6 +12,7 @@ async function display_books() {
   try {
     if (BOOKS) {
       BOOKS.forEach((book) => {
+        if (!ORDERS_ITEMS_IDS.includes(book["CatalogNumber"])) {
         console.log("book");
         let book_element = document.createElement("div");
         book_element.className = "book";
@@ -359,6 +362,7 @@ async function display_books() {
 
         book_element.appendChild(edit_book_button);
         books_list.appendChild(book_element);
+      }
       });
     } else {
       setLoadingMessage();

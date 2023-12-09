@@ -1,5 +1,5 @@
-// SERVER_ADDRESS = "https://manager-web-server.onrender.com";
-SERVER_ADDRESS = "http://127.0.0.1:5000"; // for test
+const SERVER_ADDRESS = "https://manager-web-server.onrender.com";
+// SERVER_ADDRESS = "http://127.0.0.1:5000"; // for test
 
 async function get_books_from_db() {
   try {

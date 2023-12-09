@@ -23,9 +23,12 @@ function save_password() {
 function getLastBooksCatalogNumber() {
   var minCatalogNUmber = 1000;
   for (var book of BOOKS) {
-    if (book['CatalogNumber'] > minCatalogNUmber) {
+    let book_is_not_order_item = !ORDERS_ITEMS_IDS.includes(book["CatalogNumber"]);
+    let book_catalog_number_is_bigger = book['CatalogNumber'] > minCatalogNUmber;
+    if (book_is_not_order_item && book_catalog_number_is_bigger) {
       minCatalogNUmber = book['CatalogNumber'];
     }
+    
   }
   return minCatalogNUmber;
 }
