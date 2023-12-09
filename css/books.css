@@ -37,6 +37,21 @@
   display: block;
 }
 
+.delete_button {
+  margin-bottom: 10px;
+  padding: 10px 30px;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  background-color: #891717;
+  font-weight: bold;
+}
+
+.delete_button:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
 .price_textarea {
   text-align: center;
   width: 100px;

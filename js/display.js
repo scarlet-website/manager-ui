@@ -73,8 +73,12 @@ async function display_books() {
         info_textarea_element.id = book["CatalogNumber"] + "_info";
         if (!is_book_edited(book["CatalogNumber"])) {
           info_textarea_element.disabled = true;
+          hiddenElement(info_textarea_element);
+          hiddenElement(info_element);
         } else {
           info_textarea_element.disabled = false;
+          showElement(info_textarea_element);
+          showElement(info_element);
         }
         info_textarea_element.textContent = book["Info"];
 
@@ -96,8 +100,12 @@ async function display_books() {
         price_textarea_element.textContent = book["UnitPrice"];
         if (!is_book_edited(book["CatalogNumber"])) {
           price_textarea_element.disabled = true;
+          hiddenElement(unit_price_element);
+          hiddenElement(price_textarea_element);
         } else {
           price_textarea_element.disabled = false;
+          showElement(unit_price_element);
+          showElement(price_textarea_element);
         }
 
         book_element.appendChild(unit_price_element);
@@ -120,8 +128,12 @@ async function display_books() {
         not_real_price_textarea_element.textContent = book["NotRealUnitPrice"];
         if (!is_book_edited(book["CatalogNumber"])) {
           not_real_price_textarea_element.disabled = true;
+          hiddenElement(not_real_price_element);
+          hiddenElement(not_real_price_textarea_element);
         } else {
           not_real_price_textarea_element.disabled = false;
+          showElement(not_real_price_element);
+          showElement(not_real_price_textarea_element);
         }
 
         book_element.appendChild(not_real_price_element);
@@ -160,8 +172,12 @@ async function display_books() {
 
         if (!is_book_edited(book["CatalogNumber"])) {
           in_stock_input_element.disabled = true;
+          hiddenElement(in_stock_element);
+          hiddenElement(in_stock_input_element);
         } else {
           in_stock_input_element.disabled = false;
+          showElement(in_stock_element);
+          showElement(in_stock_input_element);
         }
 
         in_stock_element.appendChild(in_stock_input_element);
@@ -199,8 +215,12 @@ async function display_books() {
 
         if (!is_book_edited(book["CatalogNumber"])) {
           is_case_input_element.disabled = true;
+          hiddenElement(is_case_element);
+          hiddenElement(is_case_input_element);
         } else {
           is_case_input_element.disabled = false;
+          showElement(is_case_element);
+          showElement(is_case_input_element);
         }
 
         is_case_element.appendChild(is_case_input_element);
@@ -226,7 +246,7 @@ async function display_books() {
         change_image_button.classList.add("center");
         change_image_button.classList.add("book_btn");
         change_image_button.type = "button";
-        change_image_button.value = "Change Image";
+        change_image_button.value = "ערוך כריכה";
 
         // Input file element
         let file_input = document.createElement("input");
@@ -260,6 +280,40 @@ async function display_books() {
 
         // ****************************************************************
 
+        // Delete book button
+        let delete_book_button = document.createElement("input");
+        delete_book_button.type = "button";
+        delete_book_button.classList.add("delete_button");
+        delete_book_button.value = "מחק ספר";
+
+        if (!is_book_edited(book["CatalogNumber"])) {
+          delete_book_button.style.display = "none";
+        } else {
+          delete_book_button.style.display = "block";
+        }
+
+        delete_book_button.addEventListener("click", async function () {
+
+          const userResponse = window.confirm("האם למחוק את הספר?");
+          if (userResponse) {
+            
+            // Delete book data in db
+            const delete_book_message = await delete_book_in_db(
+              book["CatalogNumber"]
+            );
+
+            // Refresh books
+            get_books(true);
+
+            // Set as saved
+            save_book(book["CatalogNumber"]);
+          }
+        });
+
+        book_element.appendChild(delete_book_button);
+
+        // ****************************************************************
+
         // Edit book button
         let edit_book_button = document.createElement("input");
         edit_book_button.type = "button";
@@ -267,12 +321,12 @@ async function display_books() {
         edit_book_button.classList.add("book_btn");
 
         if (!is_book_edited(book["CatalogNumber"])) {
-          edit_book_button.value = "Edit";
+          edit_book_button.value = "ערוך";
           edit_book_button.addEventListener("click", function () {
             edit_book(book["CatalogNumber"]);
           });
         } else {
-          edit_book_button.value = "Save";
+          edit_book_button.value = "שמור";
           edit_book_button.addEventListener("click", async function () {
             // Save data
 
@@ -286,7 +340,7 @@ async function display_books() {
                 not_real_price_textarea_element.value
               ),
               inStock: in_stock_input_element.checked,
-              isCase: is_case_input_element.checked
+              isCase: is_case_input_element.checked,
             };
 
             // Update book data in db
@@ -326,4 +380,12 @@ function setLoadingMessage() {
 
 function clearBooksList() {
   books_list.innerHTML = "";
+}
+
+function hiddenElement(element) {
+  element.style.display = "none";
+}
+
+function showElement(element) {
+  element.style.display = "block";
 }
