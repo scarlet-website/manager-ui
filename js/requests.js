@@ -1,5 +1,5 @@
-const SERVER_ADDRESS = "https://manager-web-server.onrender.com";
-// SERVER_ADDRESS = "http://127.0.0.1:5000"; // for test
+SERVER_ADDRESS = "https://scarlet-publishing.com/api"
+IMAGES_ADDRESS = "https://scarlet-publishing.com/images/api"
 
 async function get_books_from_db() {
   try {
@@ -25,6 +25,12 @@ async function get_books(refresh) {
     setLoadingMessage();
     BOOKS = await get_books_from_db();
     for (var book of BOOKS) {
+      if (book.ImageURL) {
+        book.ImageURL = IMAGES_ADDRESS + "/" + book.ImageURL;
+        var timestamp = new Date().getTime();
+        book.ImageURL = book.ImageURL.split('?')[0] + '?' + timestamp;
+        console.log(book.ImageURL);
+      }
       book.hidden = true;
     }
     console.log("Refreshed Books", BOOKS);
@@ -64,7 +70,7 @@ async function update_book_in_db(book_data, image_src) {
       const data = await response.text();
       return data;
     } else if (response.status == 401) {
-      alert("Wrong password / token");
+      alert("סיסמה שגויה");
     } else {
       throw new Error("Error updating book");
     }
@@ -100,12 +106,32 @@ async function delete_book_in_db(book_catalog_number) {
       const data = await response.text();
       return data;
     } else if (response.status == 401) {
-      alert("Wrong password / token");
+      alert("סיסמה שגויה");
     } else {
       throw new Error("Error delete book");
     }
   } catch (error) {
     console.error("Error:", error);
+    return null;
+  }
+}
+
+async function get_image_from_db(file_name) {
+  const get_image_route_url = SERVER_ADDRESS + "/get_image/" + file_name;
+
+  try {
+    const response = await fetch(get_image_route_url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const imgUrl = URL.createObjectURL(blob);
+
+    return imgUrl;
+  } catch (error) {
+    console.error("Error fetching image:", error);
     return null;
   }
 }

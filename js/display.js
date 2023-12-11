@@ -11,7 +11,7 @@ async function display_books() {
   books_list.innerHTML = "";
   try {
     if (BOOKS) {
-      BOOKS.forEach((book) => {
+      BOOKS.forEach(async (book) => {
         if (!ORDERS_ITEMS_IDS.includes(book["CatalogNumber"])) {
         console.log("book");
         let book_element = document.createElement("div");
@@ -241,7 +241,8 @@ async function display_books() {
         // Image
         image_element = document.createElement("img");
         image_element.className = "book_image";
-        image_element.src = book.ImageData;
+        image_element.src = book.ImageURL;
+        book.ImageURL = image_element.src;
 
         // Change image button
         change_image_button = document.createElement("input");
@@ -271,9 +272,10 @@ async function display_books() {
           if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-              book.ImageData = e.target.result;
-              image_element.src = book.ImageData;
+              book.ImageURL = e.target.result;
+              image_element.src = book.ImageURL;
             };
+            console.log(image_element.src);
             reader.readAsDataURL(file);
           }
         });
@@ -349,7 +351,7 @@ async function display_books() {
             // Update book data in db
             const update_book_message = await update_book_in_db(
               book_data_update,
-              book.ImageData
+              book.ImageURL
             );
 
             // Refresh books
