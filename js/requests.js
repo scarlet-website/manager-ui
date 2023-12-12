@@ -8,7 +8,6 @@ async function get_books_from_db() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("BOOKS: ", data["books"]);
       return data["books"];
     } else {
       throw new Error("Error fetching books");
@@ -29,7 +28,6 @@ async function get_books(refresh) {
         book.ImageURL = IMAGES_ADDRESS + "/" + book.ImageURL;
         var timestamp = new Date().getTime();
         book.ImageURL = book.ImageURL.split('?')[0] + '?' + timestamp;
-        console.log(book.ImageURL);
       }
       book.hidden = true;
     }
@@ -57,15 +55,14 @@ async function update_book_in_db(book_data, image_src) {
       const image_file = await fetch(image_src).then((response) =>
         response.blob()
       );
-      formData.append("image", image_file, "image.png");
+      formData.append("image", image_file, "image.jpeg");
     }
 
     const response = await fetch(update_book_route_url, {
       method: "POST",
-      body: formData,
+      body: formData
     });
 
-    console.log(response);
     if (response.ok) {
       const data = await response.text();
       return data;
@@ -83,7 +80,6 @@ async function update_book_in_db(book_data, image_src) {
 async function delete_book_in_db(book_catalog_number) {
   try {
     const delete_book_route_url = SERVER_ADDRESS + "/delete";
-    console.log(delete_book_route_url);
     const formData = new FormData();
 
     // Append the JSON book data as a field in the FormData
@@ -101,7 +97,6 @@ async function delete_book_in_db(book_catalog_number) {
       body: formData,
     });
 
-    console.log(response);
     if (response.ok) {
       const data = await response.text();
       return data;
