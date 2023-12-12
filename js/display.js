@@ -351,7 +351,7 @@ async function display_books() {
             // Update book data in db
             const update_book_message = await update_book_in_db(
               book_data_update,
-              book.ImageURL
+              book.ImageURL.split("?")[0]
             );
 
             // Refresh books
