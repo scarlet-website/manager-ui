@@ -16,13 +16,13 @@
     <link rel="stylesheet" href="css/media.css" />
     <link rel="stylesheet" href="css/keyframes.css" />
   </head>
-  <body onload="display_books();">
+  <body onload="display_books();" dir="rtl">
     <header>
-      <input class="book_btn" type="button" value="שמור סיסמה" onclick="save_password();">
-      <input class="password_input" type="password" id="token_password_input">
-      :סיסמה
-      |
       <input class="book_btn" type="button" id="add_book_button" value="הוסף ספר" onclick="addNewBook();">
+      |
+      סיסמה:
+      <input class="password_input" type="password" id="token_password_input">
+      <input class="book_btn" type="button" value="שמור סיסמה" onclick="save_password();">
     </header>
     <section class="books_list" id="books_list"></section>
   </body>
