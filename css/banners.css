@@ -1,0 +1,20 @@
+.banners {
+  display: none;
+}
+
+.banners_list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.banner_image {
+  margin-top: 10px;
+  text-align: center;
+  height: 200px;
+  width: auto;
+}
+
+.banner_image:hover {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

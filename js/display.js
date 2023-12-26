@@ -1,5 +1,7 @@
 function getDOMs() {
   const books_list = document.getElementById("books_list");
+  const banners_list = document.getElementById("banners_list");
+  const details_mark = document.getElementById("details_mark");
   const token_password_input = document.getElementById("token_password_input");
 }
 
@@ -336,7 +338,6 @@ async function display_books() {
               }
 
               console.log(`NEW IMAGE URL: ${newImageURL}`);
-                
 
               // Collect book data
               book_data_update = {
@@ -357,7 +358,6 @@ async function display_books() {
               console.log(`imageUrlToUpdate: ${imageUrlToUpdate}`);
 
               if (book.ImageURL.includes("images")) {
-
                 // Image not changed
                 let tempImageURL = book.ImageURL;
                 console.log(`Image NOT changed: ${tempImageURL}`);
@@ -369,7 +369,6 @@ async function display_books() {
 
                 // Image change
               } else {
-
                 console.log("Image changed");
                 const update_book_message = await update_book_in_db(
                   book_data_update,
@@ -390,21 +389,56 @@ async function display_books() {
         }
       });
     } else {
-      setLoadingMessage();
+      setLoadingMessage(books_list);
     }
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error display books:", error);
   }
 }
 
-function setLoadingMessage() {
+async function display_banners() {
+  await get_banners();
+
+  banners_list.innerHTML = "";
+  try {
+    if (BANNERS) {
+      BANNERS.forEach(async (banner) => {
+        // Image
+
+        // Span
+        let image_span_element = document.createElement("span");
+        image_span_element.classList.add("block");
+        image_span_element.classList.add("center");
+
+        // Image
+        image_element = document.createElement("img");
+        image_element.className = "banner_image";
+        image_element.src = banner.ImageURL;
+        banner.ImageURL = image_element.src;
+
+        // Delete banner on click
+        image_element.addEventListener("click", async function () {
+          delete_banner(banner.banner_id);
+        });
+
+        image_span_element.appendChild(image_element);
+        banners_list.appendChild(image_span_element);
+        
+      });
+    }
+  } catch (error) {
+    console.error("Error display banners:", error);
+  }
+}
+
+function setLoadingMessage(element_to_add_message) {
   clearBooksList();
 
   // Loading
   let loading_element = document.createElement("div");
   loading_element.className = "no_books_message";
-  loading_element.textContent = "...טוען";
-  books_list.appendChild(loading_element);
+  loading_element.textContent = "טוען...";
+  element_to_add_message.appendChild(loading_element);
 }
 
 function clearBooksList() {
@@ -417,4 +451,40 @@ function hiddenElement(element) {
 
 function showElement(element) {
   element.style.display = "block";
+}
+
+function openDetailsMark(
+  detailsMarkElementId,
+  summaryElementId,
+  elementDisplayStyle
+) {
+  let detailsMarkElement = document.getElementById(detailsMarkElementId);
+  let summaryElement = document.getElementById(summaryElementId);
+
+  if (
+    summaryElement.style.display == "" ||
+    summaryElement.style.display == "none"
+  ) {
+    summaryElement.style.display = elementDisplayStyle;
+    detailsMarkElement.innerHTML = "▼";
+  } else {
+    summaryElement.style.display = "none";
+    detailsMarkElement.innerHTML = "◀";
+  }
+}
+
+function openNewsletterEmail() {
+  let emailUrl =
+    "https://s435.sgp7.mysecurecloudhost.com:2096/cpsess7947289801/3rdparty/roundcube/index.php";
+  window.open(emailUrl, "_blank");
+}
+
+async function getAndCopyNewsletterEmails() {
+  let newslettersEmails = await get_news_letters_emails_from_db();
+  copyToClipboard(newslettersEmails);
+  alert(newslettersEmails.length + "אימיילים הועתקו");
+}
+
+async function copyToClipboard(copy) {
+  navigator.clipboard.writeText(copy);
 }

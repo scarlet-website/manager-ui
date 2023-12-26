@@ -33,3 +33,22 @@ textarea {
 .password_input {
   padding: 0.5rem;
 }
+
+.main_title {
+  margin: 20px 5%;
+  text-align: right;
+  font-weight: bold;
+  color: #5074a1;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.details_mart {
+  padding: 10px;
+}
+
+.scarlet_newsletter_email {
+  margin: 10px 0;
+  font-weight: bold;
+  cursor: pointer;
+}

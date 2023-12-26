@@ -13,17 +13,37 @@
 
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/books.css" />
+    <link rel="stylesheet" href="css/banners.css" />
     <link rel="stylesheet" href="css/media.css" />
     <link rel="stylesheet" href="css/keyframes.css" />
   </head>
-  <body onload="display_books();" dir="rtl">
-    <header>
-      <input class="book_btn" type="button" id="add_book_button" value="הוסף ספר" onclick="addNewBook();">
-      |
-      סיסמה:
+  <body onload="display_books();display_banners();" dir="rtl" id="body">
+    <header id="header">
+      <span>סיסמה:</span>
       <input class="password_input" type="password" id="token_password_input">
-      <input class="book_btn" type="button" value="שמור סיסמה" onclick="save_password();">
+      <input class="book_btn" id="book_btn" type="button" value="שמור סיסמה" onclick="save_password();">
     </header>
-    <section class="books_list" id="books_list"></section>
+    
+    <!-- Books -->
+    <div class="main_title" onclick="openDetailsMark('book_list_title_mark', 'books', 'block');"><span class="details_mart" id="book_list_title_mark">◀</span>עריכת ספרים</div>
+    <section class="books" id="books">
+      <input class="book_btn" id="book_btn" type="button" value="הוסף ספר" onclick="addNewBook();">
+      <div class="books_list" id="books_list"></div>
+    </section>
+
+    <!-- Newsletter -->
+    <div class="main_title" onclick="openDetailsMark('newsletter_title_mark', 'newsletter', 'block');"><span class="details_mart" id="newsletter_title_mark">◀</span>דיוור אלקטרוני</div>
+    <section class="newsletter" id="newsletter">
+      <input class="book_btn" id="book_btn" type="button" value="פתח אימייל" onclick="openNewsletterEmail();">
+      <input class="book_btn" id="book_btn" type="button" value="העתק אימיילים" onclick="getAndCopyNewsletterEmails();">
+      <p onclick="copyToClipboard('newsletter@scarlet-publishing.com');" class="scarlet_newsletter_email" id="scarlet_newsletter_email">newsletter@scarlet-publishing.com</p>
+    </section>
+
+    <!-- Banners -->
+    <div class="main_title" onclick="openDetailsMark('banners_title_mark', 'banners', 'block');"><span class="details_mart" id="banners_title_mark">◀</span>באנרים</div>
+    <section class="banners" id="banners">
+      <input class="book_btn" id="book_btn" type="button" value="הוסף באנר" onclick="addNewBanner();">
+      <div class="banners_list" id="banners_list"></div>
+    </section>
   </body>
 </html>
