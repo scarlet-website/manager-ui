@@ -364,7 +364,7 @@ async function display_books() {
                 const update_book_message = await update_book_in_db(
                   book_data_update
                 );
-                console.log(tempImageURL);
+                console.log(`Update book response: ${update_book_message}`);
                 book.ImageURL = tempImageURL;
 
                 // Image change
@@ -374,6 +374,7 @@ async function display_books() {
                   book_data_update,
                   imageUrlToUpdate
                 );
+                console.log(`Update book response: ${update_book_message}`);
               }
 
               // Refresh books

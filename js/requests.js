@@ -84,7 +84,7 @@ async function update_book_in_db(book_data, image_src) {
     } else if (response.status == 401) {
       alert("סיסמה שגויה");
     } else {
-      throw new Error("Error updating book");
+      throw new Error(`Error updating book ${response.text()}`);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -228,7 +228,7 @@ async function insert_banner_to_db(banner_data, image_src) {
     } else if (response.status == 401) {
       alert("סיסמה שגויה");
     } else {
-      throw new Error("Error updating book");
+      throw new Error(`Error updating book ${response.text()}`);
     }
   } catch (error) {
     console.error("Error:", error);
