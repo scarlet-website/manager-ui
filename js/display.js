@@ -17,7 +17,7 @@ async function display_books() {
         if (!ORDERS_ITEMS_IDS.includes(book["CatalogNumber"])) {
           let book_element = document.createElement("div");
           book_element.className = "book";
-          book_element.id = "book";
+          book_element.id = `book_${book["CatalogNumber"]}`;
 
           // ****************************************************************
 

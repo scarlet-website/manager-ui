@@ -1,6 +1,6 @@
-SERVER_ADDRESS = "https://scarlet-publishing.com/api"
-// SERVER_ADDRESS = "http://127.0.0.1:5000";
-IMAGES_ADDRESS = "https://scarlet-publishing.com/images/api";
+const SERVER_ADDRESS = "https://scarlet-publishing.com/api"
+// const SERVER_ADDRESS = "http://127.0.0.1:5000";
+const IMAGES_ADDRESS = "https://scarlet-publishing.com/images/api";
 
 async function get_books_from_db() {
   try {
@@ -84,7 +84,8 @@ async function update_book_in_db(book_data, image_src) {
     } else if (response.status == 401) {
       alert("סיסמה שגויה");
     } else {
-      throw new Error(`Error updating book ${response.text()}`);
+      const message = await response.text();
+      throw new Error(`Error updating book, status: ${response.status} , text: ${message}`);
     }
   } catch (error) {
     console.error("Error:", error);
@@ -228,7 +229,8 @@ async function insert_banner_to_db(banner_data, image_src) {
     } else if (response.status == 401) {
       alert("סיסמה שגויה");
     } else {
-      throw new Error(`Error updating book ${response.text()}`);
+      const message = await response.text();
+      throw new Error(`Error updating book, status: ${response.status} , text: ${message}`);
     }
   } catch (error) {
     console.error("Error:", error);

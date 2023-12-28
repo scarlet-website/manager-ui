@@ -47,7 +47,7 @@ function getLastBannerId() {
   return minId;
 }
 
-function addNewBook() {
+async function addNewBook() {
   const emptyBookStructure = Object.fromEntries(
     Object.keys(BOOKS[0]).map((key) => [key, undefined])
   );
@@ -55,8 +55,16 @@ function addNewBook() {
   var lastBooksCatalogNumber = getLastBooksCatalogNumber();
   newEmptyBook["CatalogNumber"] = lastBooksCatalogNumber + 1;
   BOOKS.push(newEmptyBook);
-  display_books();
+  await display_books();
   alert("ספר נוסף בתחתית הרשימה");
+
+  const newBookElement = document.getElementById(`book_${newEmptyBook["CatalogNumber"]}`);
+
+  // Scroll to the last book element
+  if (newBookElement) {
+    newBookElement.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+  }
+
 }
 
 const bannerStructure = {
