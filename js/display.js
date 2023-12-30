@@ -483,7 +483,7 @@ function openNewsletterEmail() {
 async function getAndCopyNewsletterEmails() {
   let newslettersEmails = await get_news_letters_emails_from_db();
   copyToClipboard(newslettersEmails);
-  alert(newslettersEmails.length + "אימיילים הועתקו");
+  alert(newslettersEmails.length + " אימיילים הועתקו");
 }
 
 async function copyToClipboard(copy) {
