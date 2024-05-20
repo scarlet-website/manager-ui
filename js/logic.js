@@ -1,6 +1,12 @@
 let BOOKS = [];
 let BANNERS = [];
 let EDITED_BOOKS_CATALOG_NUMBERS = [];
+let NUMBER_OF_BOOK_DISPLAY = 3;
+
+function loadMoreBooks() {
+  NUMBER_OF_BOOK_DISPLAY += 3;
+  display_books(true);
+}
 
 function edit_book(catalog_number) {
   EDITED_BOOKS_CATALOG_NUMBERS.push(catalog_number);

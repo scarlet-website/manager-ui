@@ -7,14 +7,22 @@ function getDOMs() {
 
 const ORDERS_ITEMS_IDS = [999991, 999992, 999993];
 
-async function display_books() {
-  await get_books();
+async function display_books(unload_book = false) {
+  let BOOK_NUMBER_DISPLAY = 1;
+  if (!unload_book) {
+    await get_books();
+  }
 
   books_list.innerHTML = "";
   try {
     if (BOOKS) {
-      BOOKS.forEach(async (book) => {
+      BOOKS.slice().reverse().forEach(async (book) => {
         if (!ORDERS_ITEMS_IDS.includes(book["CatalogNumber"])) {
+          if (BOOK_NUMBER_DISPLAY > NUMBER_OF_BOOK_DISPLAY) {
+            return;
+          }
+          BOOK_NUMBER_DISPLAY++;
+
           let book_element = document.createElement("div");
           book_element.className = "book";
           book_element.id = `book_${book["CatalogNumber"]}`;
@@ -424,7 +432,6 @@ async function display_banners() {
 
         image_span_element.appendChild(image_element);
         banners_list.appendChild(image_span_element);
-        
       });
     }
   } catch (error) {

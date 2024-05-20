@@ -85,3 +85,17 @@
   cursor: pointer;
   opacity: 0.9;
 }
+
+.red_book_btn {
+  padding: 10px 30px;
+  border-radius: 2px;
+  border: none;
+  color: white;
+  background-color: #7b1919;
+  font-weight: bold;
+}
+
+.red_book_btn:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
