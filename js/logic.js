@@ -60,6 +60,7 @@ async function addNewBook() {
   const newEmptyBook = { ...emptyBookStructure };
   var lastBooksCatalogNumber = getLastBooksCatalogNumber();
   newEmptyBook["CatalogNumber"] = lastBooksCatalogNumber + 1;
+  newEmptyBook["inStock"] = true;
   BOOKS.push(newEmptyBook);
   await display_books();
   alert("ספר נוסף בתחתית הרשימה");
